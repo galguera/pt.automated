@@ -1,0 +1,325 @@
+﻿<Window x:Class="ACC.PTAutomated.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:ACC.PTAutomated.ViewModels" 
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
+        xmlns:enums="clr-namespace:ACC.PTAutomated.DataTypes.Enums"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        Title="Performance Testing Tool" Height="500" Width="900"
+        mc:Ignorable="d" 
+        >
+    <Window.DataContext>
+        <vm:AutomatizationViewModel TxtTitle="Automat v0.0.2"></vm:AutomatizationViewModel>
+        
+    </Window.DataContext>
+    <Window.Resources>
+        <vm:DesignMockupMainWindowViewModel x:Key="mockViewModel"/>
+
+        <Style TargetType="TextBox">            
+            <Setter Property="Height" Value="24" />
+            <Setter Property="Padding" Value="2,2" />
+        </Style>
+
+        <ObjectDataProvider x:Key="dataFromEnum" MethodName="GetValues"
+                            ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="enums:EventsType"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        
+    </Window.Resources>
+
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+        </Grid.RowDefinitions>
+        <TabControl Grid.Row="0" Height="140">
+            <TabControl.Resources>
+                <Style TargetType="StackPanel">
+                    <Setter Property="Margin" Value="5,2"></Setter>
+                </Style>
+            </TabControl.Resources>
+            <TabItem Header="Project" >
+                <Grid>
+                    <Grid.RowDefinitions>
+                        
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.Column="0" CornerRadius="2" BorderBrush="Gray"  BorderThickness="1" >
+                        <StackPanel>
+                            <Label FontWeight="Bold">General</Label>
+                            <Grid>
+                                <TextBox Text="{Binding TxtTitle}" />
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                    
+                    <Border Grid.Column="1" CornerRadius="2" BorderBrush="Gray"  BorderThickness="1" >
+                        <StackPanel>
+                            <Label FontWeight="Bold">Execution</Label>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Style="{StaticResource button.Icon64x}" Content="{StaticResource icon.Play}" Command="{Binding btnExecute, Mode=OneWay}"></Button>
+                                <Button Style="{StaticResource button.Icon64x}" Content="{StaticResource icon.Pause}"></Button>
+                                <Button Style="{StaticResource button.Icon64x}" Content="{StaticResource icon.Stop}"></Button>
+                                
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    
+
+                </Grid>
+                
+            </TabItem>
+            <TabItem Header="Sequence" Visibility="{Binding SequenceVisibility}" IsSelected="{Binding IsSequenceSelected}" d:DataContext="{StaticResource mockViewModel}" >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.Column="0" CornerRadius="2" BorderBrush="Gray"  BorderThickness="1" >
+                        <StackPanel>
+                            <Label FontWeight="Bold">General</Label>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="50"></ColumnDefinition>
+                                    <ColumnDefinition Width="300"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Row="0" Grid.Column="0">Title</Label>
+                                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding SelectedSequence.Title ,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                                <Label Grid.Row="1" Grid.Column="0">Repeat</Label>
+                                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SelectedSequence.Repeat, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                    <Border Grid.Column="1" CornerRadius="2" BorderBrush="Gray"  BorderThickness="1" >
+                        <StackPanel>
+                            <Label FontWeight="Bold">Delay</Label>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="50"></ColumnDefinition>
+                                    <ColumnDefinition Width="100"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Row="0" Grid.Column="0">After</Label>
+                                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding SelectedSequence.DelayAfter, UpdateSourceTrigger=LostFocus}"></TextBox>
+                                <Label Grid.Row="1" Grid.Column="0">Before</Label>
+                                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SelectedSequence.DelayBefore, UpdateSourceTrigger=LostFocus}"></TextBox>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </TabItem>
+            <TabItem Visibility="{Binding EventVisibility}" IsSelected="{Binding IsEventSelected}" d:DataContext="{StaticResource mockViewModel}">
+                
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">                        
+                        <TextBlock Text="Event" Foreground="Blue" />
+                    </StackPanel>
+                </TabItem.Header>
+                <Grid>
+                    <Grid.Resources>
+                        
+                    </Grid.Resources>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.Column="0" CornerRadius="2" BorderBrush="Gray"  BorderThickness="1" >
+                        <StackPanel>
+                            <Label FontWeight="Bold">General</Label>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="50"></ColumnDefinition>
+                                    <ColumnDefinition Width="300"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Row="0" Grid.Column="0">Title</Label>
+                                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding SelectedEvent.Title, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                                <Label Grid.Row="1" Grid.Column="0">Type</Label>
+
+                                <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Source={StaticResource dataFromEnum}}" />
+                                
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                    <Border Grid.Column="1" CornerRadius="2" BorderBrush="Gray"  BorderThickness="1" >
+                        <StackPanel>
+                            <Label FontWeight="Bold">Delay</Label>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="50"></ColumnDefinition>
+                                    <ColumnDefinition Width="50"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Row="0" Grid.Column="0">After</Label>
+                                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding SelectedEvent.DelayAfter, UpdateSourceTrigger=LostFocus}"></TextBox>
+                                <Label Grid.Row="1" Grid.Column="0">Before</Label>
+                                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SelectedEvent.DelayBefore, UpdateSourceTrigger=LostFocus}"></TextBox>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                    <Border Grid.Column="2" CornerRadius="2" BorderBrush="Gray"  BorderThickness="1" >
+                        <StackPanel>
+                            <Label FontWeight="Bold">Position</Label>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="50"></ColumnDefinition>
+                                    <ColumnDefinition Width="50"></ColumnDefinition>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Row="0" Grid.Column="0">X</Label>
+                                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding SelectedEvent.X, UpdateSourceTrigger=LostFocus}"></TextBox>
+                                <Button Grid.Row="0" Grid.Column="2" Style="{StaticResource button.Icon24x}" Content="{StaticResource icon.Position}"></Button>
+                                <Label Grid.Row="1" Grid.Column="0">Y</Label>
+                                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SelectedEvent.Y, UpdateSourceTrigger=LostFocus}"></TextBox>
+                                <Button Grid.Row="1" Grid.Column="2" Style="{StaticResource button.Icon24x}" Content="{StaticResource icon.Position}"></Button>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                    <Border Grid.Column="3" CornerRadius="2" BorderBrush="Gray"  BorderThickness="1" >
+                        <StackPanel>
+                            <Label FontWeight="Bold">Key</Label>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="50"></ColumnDefinition>
+                                    <ColumnDefinition Width="50"></ColumnDefinition>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Row="0" Grid.Column="0">Key</Label>
+                                <TextBox Grid.Row="0" Grid.Column="1">0</TextBox>
+                                <Button Grid.Row="0" Grid.Column="2" Style="{StaticResource button.Icon24x}" Content="{StaticResource icon.Keyboard}"></Button>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+               
+            </TabItem>
+        </TabControl>
+        
+        
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            
+            <Button Grid.Column="2" Content="{StaticResource icon.AddSequence}" Style="{StaticResource button.Icon24x}" VerticalAlignment="Bottom" Command="{Binding btnAddSequence}" />
+        </Grid>
+
+        <ItemsControl Grid.Row="2" d:DataContext="{StaticResource mockViewModel}" ItemsSource="{Binding Sequences}" Background="#FF272727">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <!-- SEQUENCES -->
+                <DataTemplate>
+                    <Grid Margin="5" Background="{Binding Background}">
+                        <Grid.InputBindings>
+                            <MouseBinding MouseAction="LeftClick" Command="{Binding OnSequenceSelect}"></MouseBinding>
+                        </Grid.InputBindings>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <Rectangle Grid.Column="0" Width="14" Height="14" Fill="Black" Margin="2" >
+                                <Rectangle.OpacityMask>
+                                    <VisualBrush Visual="{StaticResource icon.Sequence}" />
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                            <Label Grid.Column="1" Content="{Binding Title}" Foreground="White"></Label>
+                            <StackPanel Grid.Column="2" Orientation="Horizontal">
+                                <StackPanel.Resources>
+                                    <Style TargetType="{x:Type Button}">
+                                        <Setter Property="Margin" Value="2,3,2,3"></Setter>
+                                        <Setter Property="Width" Value="24"></Setter>
+                                        <Setter Property="Height" Value="24"></Setter>
+                                    </Style>
+                                </StackPanel.Resources>
+                                <Button Content="{StaticResource icon.AddEvent}" Style="{StaticResource button.Icon24x}" Command="{Binding btnAddEvent}"></Button>
+                                <Button Content="{StaticResource icon.Delete}" Style="{StaticResource button.Icon24x}" Command="{Binding btnDelete}"></Button>
+
+                            </StackPanel>
+
+                        </Grid>
+
+<!-- EVENTS -->
+                        <ItemsControl  Grid.Row="1" ItemsSource="{Binding Events}" d:DataContext="{StaticResource mockViewModel}"  Height="100">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border CornerRadius="2" BorderBrush="Gray" Background="{Binding Background}" BorderThickness="1" DockPanel.Dock="Top" >
+                                        <Border.InputBindings>
+                                            <MouseBinding MouseAction="LeftClick" Command="{Binding OnEventSelect}"></MouseBinding>
+                                        </Border.InputBindings>
+                                        <StackPanel >
+                                            <Rectangle Grid.Column="0" Width="18" Height="18" Fill="Black" Margin="2">
+                                                <Rectangle.OpacityMask>
+                                                    <VisualBrush Visual="{StaticResource icon.Event}" />
+                                                </Rectangle.OpacityMask>
+                                            </Rectangle>
+                                            <Label  Content="{Binding Title}"></Label>
+                                            <Button Content="{StaticResource icon.Delete}" Style="{StaticResource button.Icon24x}" Command="{Binding btnDelete}"></Button>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+    </Grid>
+</Window>
