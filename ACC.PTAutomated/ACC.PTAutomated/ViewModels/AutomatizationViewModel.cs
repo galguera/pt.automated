@@ -32,6 +32,7 @@ namespace ACC.PTAutomated.ViewModels
             Sequences = new ObservableCollection<SequenceViewModel>();
             IsEventSelected = false;
             IsSequenceSelected = false;
+            IsExecuting = false;
         }
 
         
@@ -137,6 +138,8 @@ namespace ACC.PTAutomated.ViewModels
             }
         }
 
+
+
         private Visibility _sequenceVisibility;
         public Visibility SequenceVisibility
         {
@@ -148,6 +151,21 @@ namespace ACC.PTAutomated.ViewModels
             {
                 _sequenceVisibility = value;
                 NotifyPropertyChanged("SequenceVisibility");
+            }
+        }
+
+
+        private bool _isExecuting;
+        public bool IsExecuting
+        {
+            get
+            {
+                return _isExecuting;
+            }
+            set
+            {
+                _isExecuting = value;
+                NotifyPropertyChanged("IsExecuting");
             }
         }
 
@@ -196,6 +214,7 @@ namespace ACC.PTAutomated.ViewModels
         {
             //
             ///
+            IsExecuting = true;
             Core core = new Core();
             foreach (var sequence in Sequences)
             {
@@ -221,6 +240,7 @@ namespace ACC.PTAutomated.ViewModels
                 }
                 
             }
+            IsExecuting = false;
         }
     }
 }

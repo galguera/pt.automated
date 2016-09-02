@@ -65,9 +65,9 @@
                         <StackPanel>
                             <Label FontWeight="Bold">Execution</Label>
                             <StackPanel Orientation="Horizontal">
-                                <Button Style="{StaticResource button.Icon64x}" Content="{StaticResource icon.Play}" Command="{Binding btnExecute, Mode=OneWay}"></Button>
-                                <Button Style="{StaticResource button.Icon64x}" Content="{StaticResource icon.Pause}"></Button>
-                                <Button Style="{StaticResource button.Icon64x}" Content="{StaticResource icon.Stop}"></Button>
+                                <Button Style="{StaticResource button.Icon64x}" Content="{StaticResource icon.Play}" Command="{Binding btnExecute, Mode=OneWay}" IsEnabled="{Binding !IsExecuting, UpdateSourceTrigger=PropertyChanged}"></Button>
+                                <Button Style="{StaticResource button.Icon64x}" Content="{StaticResource icon.Pause}" IsEnabled="{Binding Path=IsExecuting}"></Button>
+                                <Button Style="{StaticResource button.Icon64x}" Content="{StaticResource icon.Stop}" IsEnabled="{Binding IsExecuting}"></Button>
                                 
                             </StackPanel>
                         </StackPanel>

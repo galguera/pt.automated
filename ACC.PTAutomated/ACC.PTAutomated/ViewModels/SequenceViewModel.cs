@@ -29,6 +29,7 @@ namespace ACC.PTAutomated.ViewModels
             btnCmdDelete = new DeleteSequenceButtonCommand(this);
             cmdLeftClickSequence = new SequenceLeftClickEvent(this);
             Events = new ObservableCollection<EventViewModel>();
+            Events.Add(new EventViewModel(this));
             IsSelected = false;
             Id = model.Id.ToString(); 
         }
