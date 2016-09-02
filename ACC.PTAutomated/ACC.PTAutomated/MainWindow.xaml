@@ -10,7 +10,7 @@
         mc:Ignorable="d" 
         >
     <Window.DataContext>
-        <vm:AutomatizationViewModel TxtTitle="Automat v0.0.2"></vm:AutomatizationViewModel>
+        <vm:AutomatizationViewModel TxtTitle="Automat v0.1"></vm:AutomatizationViewModel>
         
     </Window.DataContext>
     <Window.Resources>
