@@ -25,7 +25,35 @@ namespace ACC.PTAutomated.ViewModels
             btnCmdDelete = new DeleteEventButtonCommand(this);
             cmdLeftClickEvent = new EventLeftClickEvent(this);
             Id = model.Id.ToString();
+            Types = new ObservableCollection<EventType>() { 
+                new EventType() { Id= 1, Code = "MouseMove", Description = "Mouse move" },
+                new EventType() { Id= 2, Code = "RightClick", Description = "Right click" },
+                new EventType() { Id= 3, Code = "LeftClick", Description = "Left click" },
+                new EventType() { Id= 4, Code = "KeyPress", Description = "Key press" }
+            };
+
             IsSelected = false;
+        }
+
+        public ObservableCollection<EventType> Types { get; set; }
+
+        
+        public EventType SelectedEventType { 
+            get {
+                return Types.Where(t => t.Id == (int)model.Type).FirstOrDefault();
+            }
+            set {
+                
+                try
+                {
+                    model.Type = (EventsType)Enum.ToObject(typeof(EventsType), value.Id);
+                }
+                catch
+                {
+                   
+                }
+                NotifyPropertyChanged();
+            }
         }
 
 
@@ -36,7 +64,8 @@ namespace ACC.PTAutomated.ViewModels
             set
             {
                 model.Title = value;
-                NotifyPropertyChanged("Title");
+                NotifyPropertyChanged();
+                //NotifyPropertyChangedExplicit("Title");
             }
         }
 
@@ -46,12 +75,13 @@ namespace ACC.PTAutomated.ViewModels
             set
             {
                 double val;
-                if (!Double.TryParse(value, out val))
+                if (Double.TryParse(value, out val))
                 {
-                    return;
+                    model.DelayAfter = val;
                 }
-                model.DelayAfter = val;
-                NotifyPropertyChanged("DelayAfter");
+                
+                NotifyPropertyChanged();
+                //NotifyPropertyChangedExplicit("DelayAfter");
             }
         }
 
@@ -61,14 +91,48 @@ namespace ACC.PTAutomated.ViewModels
             set
             {
                 double val;
-                if (!Double.TryParse(value, out val))
+                if (Double.TryParse(value, out val))
                 {
-                    return;
+                    model.DelayBefore = val;
                 }
-                model.DelayBefore = val;
-                NotifyPropertyChanged("DelayBefore");
+                
+                NotifyPropertyChanged();
             }
         }
+
+        public String X
+        {
+            get { return model.Data.X.ToString(); }
+            set
+            {
+                uint val;
+                if (UInt32.TryParse(value, out val))
+                {
+                    model.Data.X = val;
+                }
+                
+                NotifyPropertyChanged();
+            }
+        }
+
+        public String Y
+        {
+            get { return model.Data.Y.ToString(); }
+            set
+            {
+                uint val;
+                if (UInt32.TryParse(value, out val))
+                {
+                    model.Data.Y = val;
+                }
+                
+                NotifyPropertyChanged();
+            }
+        }
+        
+        public TimeSpan DelayBeforeMiliseconds { get { return TimeSpan.FromSeconds(model.DelayBefore); } }
+
+        #region ICommand Section
 
 
         private EventLeftClickEvent cmdLeftClickEvent;
@@ -89,6 +153,10 @@ namespace ACC.PTAutomated.ViewModels
             }
         }
 
+
+        #endregion
+
+
         private bool _isSelected;
         public Boolean IsSelected
         {
@@ -99,7 +167,8 @@ namespace ACC.PTAutomated.ViewModels
             set
             {
                 _isSelected = value;
-                NotifyPropertyChanged("IsSelected");
+                NotifyPropertyChanged();
+                //NotifyPropertyChangedExplicit("IsSelected");
                 Background = _isSelected ? SelectedAlternativeColor : BackgroundAlternativeColor;
             }
         }
@@ -114,12 +183,13 @@ namespace ACC.PTAutomated.ViewModels
             set
             {
                 _background = value;
-                NotifyPropertyChanged("Background");
+                NotifyPropertyChanged();
+                //NotifyPropertyChangedExplicit("Background");
             }
         }
 
 
-        public void Delete()
+        internal void Delete()
         {
             parentModel.DeleteEvent(Id);
         }
@@ -134,38 +204,6 @@ namespace ACC.PTAutomated.ViewModels
             get { return model.Type; }
         }
 
-        public String X
-        {
-            get { return model.Data.X.ToString(); }
-            set
-            {
-                uint val;
-                if (!UInt32.TryParse(value, out val))
-                {
-                    return;
-                }
-                model.Data.X = val;
-                NotifyPropertyChanged("X");
-            }
-        }
 
-        public String Y
-        {
-            get { return model.Data.Y.ToString(); }
-            set
-            {
-                uint val;
-                if (!UInt32.TryParse(value, out val))
-                {
-                    return;
-                }
-                model.Data.Y = val;
-                NotifyPropertyChanged("Y");
-            }
-        }
-
-        
-
-        public TimeSpan DelayBeforeMiliseconds { get { return TimeSpan.FromSeconds(model.DelayBefore); } }
     }
 }

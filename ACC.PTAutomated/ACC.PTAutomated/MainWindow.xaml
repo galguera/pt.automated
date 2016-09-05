@@ -4,6 +4,7 @@
         xmlns:vm="clr-namespace:ACC.PTAutomated.ViewModels" 
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         xmlns:enums="clr-namespace:ACC.PTAutomated.DataTypes.Enums"
+        xmlns:conv="clr-namespace:ACC.PTAutomated.Converters"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         Title="Performance Testing Tool" Height="500" Width="900"
@@ -15,7 +16,7 @@
     </Window.DataContext>
     <Window.Resources>
         <vm:DesignMockupMainWindowViewModel x:Key="mockViewModel"/>
-
+        <conv:InverseBooleanConverter x:Key="InverseBoolConverter"></conv:InverseBooleanConverter>
         <Style TargetType="TextBox">            
             <Setter Property="Height" Value="24" />
             <Setter Property="Padding" Value="2,2" />
@@ -65,8 +66,8 @@
                         <StackPanel>
                             <Label FontWeight="Bold">Execution</Label>
                             <StackPanel Orientation="Horizontal">
-                                <Button Style="{StaticResource button.Icon64x}" Content="{StaticResource icon.Play}" Command="{Binding btnExecute, Mode=OneWay}" IsEnabled="{Binding !IsExecuting, UpdateSourceTrigger=PropertyChanged}"></Button>
-                                <Button Style="{StaticResource button.Icon64x}" Content="{StaticResource icon.Pause}" IsEnabled="{Binding Path=IsExecuting}"></Button>
+                                <Button Style="{StaticResource button.Icon64x}" Content="{StaticResource icon.Play}" Command="{Binding btnExecute}" IsEnabled="{Binding Path=IsExecuting, Converter={StaticResource InverseBoolConverter}}"></Button>
+                                <Button Style="{StaticResource button.Icon64x}" Content="{StaticResource icon.Pause}" IsEnabled="{Binding IsExecuting}"></Button>
                                 <Button Style="{StaticResource button.Icon64x}" Content="{StaticResource icon.Stop}" IsEnabled="{Binding IsExecuting}"></Button>
                                 
                             </StackPanel>
@@ -157,7 +158,8 @@
                                 <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding SelectedEvent.Title, UpdateSourceTrigger=PropertyChanged}"></TextBox>
                                 <Label Grid.Row="1" Grid.Column="0">Type</Label>
 
-                                <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Source={StaticResource dataFromEnum}}" />
+                                <ComboBox Grid.Row="1" Grid.Column="1" 
+                                          ItemsSource="{Binding SelectedEvent.Types}" DisplayMemberPath="Description" SelectedItem="{Binding SelectedEvent.SelectedEventType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                 
                             </Grid>
                         </StackPanel>
@@ -175,9 +177,9 @@
                                     <ColumnDefinition Width="50"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
                                 <Label Grid.Row="0" Grid.Column="0">After</Label>
-                                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding SelectedEvent.DelayAfter, UpdateSourceTrigger=LostFocus}"></TextBox>
+                                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding SelectedEvent.DelayAfter, UpdateSourceTrigger=PropertyChanged}"></TextBox>
                                 <Label Grid.Row="1" Grid.Column="0">Before</Label>
-                                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SelectedEvent.DelayBefore, UpdateSourceTrigger=LostFocus}"></TextBox>
+                                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SelectedEvent.DelayBefore, UpdateSourceTrigger=PropertyChanged}"></TextBox>
                             </Grid>
                         </StackPanel>
                     </Border>

@@ -56,8 +56,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\InverseBooleanConverter.cs" />
+    <Compile Include="Helpers\CallerMemberNameAttribute.cs" />
     <Compile Include="Helpers\Core.cs" />
     <Compile Include="Model\BaseModel.cs" />
+    <Compile Include="Model\EventType.cs" />
     <Compile Include="UserControls\Event.xaml.cs">
       <DependentUpon>Event.xaml</DependentUpon>
     </Compile>

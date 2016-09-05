@@ -39,13 +39,22 @@ namespace ACC.PTAutomated.ViewModels
 
         public string TxtTitle
         {
-            set {  model.Title = value; }
-            get { return model.Title; }
+            set {  
+                model.Title = value;
+                NotifyPropertyChanged();
+            }
+            get { 
+                return model.Title; 
+
+            }
         }
 
         public string TxtStopAt
         {
-            set { model.StopAt = Convert.ToUInt32(value); }
+            set { 
+                model.StopAt = Convert.ToUInt32(value);
+                NotifyPropertyChanged();
+            }
             get { return model.StopAt.ToString(); }
         }
 
@@ -56,7 +65,8 @@ namespace ACC.PTAutomated.ViewModels
             set
             {
                 _selectedEvent = value;
-                NotifyPropertyChanged("SelectedEvent");
+                //NotifyPropertyChangedExplicit("SelectedEvent");
+                NotifyPropertyChanged();
             }
             get
             {
@@ -71,7 +81,8 @@ namespace ACC.PTAutomated.ViewModels
             set
             {
                 _selectedSequence = value;
-                NotifyPropertyChanged("SelectedSequence");
+                NotifyPropertyChanged();
+                //NotifyPropertyChangedExplicit("SelectedSequence");
             }
             get
             {
@@ -101,7 +112,8 @@ namespace ACC.PTAutomated.ViewModels
             set {
                 _isEventSelected = value;
                 EventVisibility = value ? Visibility.Visible : Visibility.Collapsed;
-                NotifyPropertyChanged("IsEventSelected");
+                NotifyPropertyChanged();
+                //NotifyPropertyChangedExplicit("IsEventSelected");
             }
             get
             {
@@ -119,7 +131,8 @@ namespace ACC.PTAutomated.ViewModels
             set
             {
                 _eventVisibility = value;
-                NotifyPropertyChanged("EventVisibility");
+                NotifyPropertyChanged();
+                //NotifyPropertyChangedExplicit("EventVisibility");
             }
         }
 
@@ -134,7 +147,8 @@ namespace ACC.PTAutomated.ViewModels
             {
                 _isSequenceSelected = value;
                 SequenceVisibility = value ? Visibility.Visible : Visibility.Collapsed;
-                NotifyPropertyChanged("IsSequenceSelected");
+                NotifyPropertyChanged();
+                //NotifyPropertyChangedExplicit("IsSequenceSelected");
             }
         }
 
@@ -150,7 +164,8 @@ namespace ACC.PTAutomated.ViewModels
             set
             {
                 _sequenceVisibility = value;
-                NotifyPropertyChanged("SequenceVisibility");
+                NotifyPropertyChanged();
+                //NotifyPropertyChangedExplicit("SequenceVisibility");
             }
         }
 
@@ -165,7 +180,8 @@ namespace ACC.PTAutomated.ViewModels
             set
             {
                 _isExecuting = value;
-                NotifyPropertyChanged("IsExecuting");
+                NotifyPropertyChanged();
+                //NotifyPropertyChangedExplicit("IsExecuting");
             }
         }
 

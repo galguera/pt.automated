@@ -40,7 +40,8 @@ namespace ACC.PTAutomated.ViewModels
 
             set {
                 model.Title = value;
-                NotifyPropertyChanged("Title");
+                NotifyPropertyChanged();
+                //NotifyPropertyChangedExplicit("Title");
             }
         }
 
@@ -55,7 +56,8 @@ namespace ACC.PTAutomated.ViewModels
                     return;
                 }
                 model.Repeat = val;
-                NotifyPropertyChanged("Repeat");
+                NotifyPropertyChanged();
+                //NotifyPropertyChangedExplicit("Repeat");
             }
         }
 
@@ -71,7 +73,8 @@ namespace ACC.PTAutomated.ViewModels
                     return;
                 }
                 model.DelayAfter = val;
-                NotifyPropertyChanged("DelayAfter");
+                NotifyPropertyChanged();
+                //NotifyPropertyChangedExplicit("DelayAfter");
             }
         }
 
@@ -86,7 +89,8 @@ namespace ACC.PTAutomated.ViewModels
                     return;
                 }
                 model.DelayBefore = val;
-                NotifyPropertyChanged("DelayBefore");
+                NotifyPropertyChanged();
+                //NotifyPropertyChangedExplicit("DelayBefore");
             }
         }
 
@@ -135,8 +139,9 @@ namespace ACC.PTAutomated.ViewModels
             set
             {
                 _isSelected = value;
-                NotifyPropertyChanged("IsSelected");
+                //NotifyPropertyChangedExplicit("IsSelected");
                 Background = _isSelected ? SelectedColor : BackgroundColor;
+                NotifyPropertyChanged();
             }
         }
 
@@ -150,7 +155,8 @@ namespace ACC.PTAutomated.ViewModels
             set
             {
                 _background = value;
-                NotifyPropertyChanged("Background");
+                //NotifyPropertyChangedExplicit("Background");
+                NotifyPropertyChanged();
             }
         }
 

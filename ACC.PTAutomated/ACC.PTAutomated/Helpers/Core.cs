@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Windows;
+using System.Windows.Input;
 
 namespace ACC.PTAutomated.Helpers
 {
@@ -31,6 +33,16 @@ namespace ACC.PTAutomated.Helpers
         [DllImport("USER32.DLL")]
         public static extern bool SetForegroundWindow(IntPtr hWnd);
 
+
+        [DllImport("User32.Dll")]
+        public static extern bool ClientToScreen(IntPtr hWnd, ref POINT point);
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct POINT
+        {
+            public int x;
+            public int y;
+        }
 
 
         private const int MOUSEEVENTF_LEFTDOWN = 0x02;
@@ -103,7 +115,17 @@ namespace ACC.PTAutomated.Helpers
 
         public void MoveMouse(uint x, uint y)
         {
-            mouse_event((uint)MouseEventFlags.Move, x, y, 0, 0);
+
+            POINT p = new POINT();
+            p.x = Convert.ToInt16(x);
+            p.y = Convert.ToInt16(y);
+
+            //ClientToScreen(this.Handle, ref p);
+            SetCursorPos(p.x, p.y);
+
+
+           // mouse_event((uint)MouseEventFlags.Move, x, y, 0, 0);
+            
         }
     }
 }

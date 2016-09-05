@@ -4,9 +4,13 @@ using System.ComponentModel;
 using System.Linq;
 using ACC.PTAutomated.ViewModels.Commands;
 using System.Windows.Input;
+using System.Runtime.CompilerServices;
+
 
 namespace ACC.PTAutomated.ViewModels
 {
+    
+
     public class BaseViewModel : INotifyPropertyChanged
     {
 
@@ -21,6 +25,24 @@ namespace ACC.PTAutomated.ViewModels
         /// Raises this object's PropertyChanged event.
         /// </summary>
         /// <param name="propertyName">The property that has a new value.</param>
+        internal void NotifyPropertyChangedExplicit(String propertyName = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+
+        /// <summary>
+        /// Raises this object's PropertyChanged event using the name's property.
+        /// </summary>
+        /// <param name="caller">Do not pass the parameter value</param>
+        private void OnPropertyChanged<T>([CallerMemberName]string caller = null)
+        {
+            NotifyPropertyChangedExplicit(caller);            
+        }
+
         internal void NotifyPropertyChanged(String propertyName = "")
         {
             if (PropertyChanged != null)
